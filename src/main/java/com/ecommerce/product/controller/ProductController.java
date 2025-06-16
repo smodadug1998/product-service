@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +27,13 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<ProductResponse>> GetAllProducts() {
         return ResponseEntity.ok(productService.getAllProducts());
+    }
+
+    @GetMapping("/{productId}")
+    public ResponseEntity<ProductResponse> getProductById(@PathVariable Long productId) {
+        return productService.getProductById(productId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{productId}")

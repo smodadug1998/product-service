@@ -61,6 +61,12 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Optional<ProductResponse> getProductById(Long productId) {
+        return productRepo.findByIdAndActiveTrue(productId)
+                .map(this::mapToProductResponse);
+    }
+
     private ProductResponse mapToProductResponse(Product savedProduct) {
         ProductResponse productResponse = new ProductResponse();
         productResponse.setId(savedProduct.getId());
